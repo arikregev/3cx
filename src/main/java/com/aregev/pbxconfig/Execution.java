@@ -3,6 +3,7 @@ package com.aregev.pbxconfig;
 import com.aregev.pbxconfig.threecx.devices.SipDeviceFetcher;
 import com.aregev.pbxconfig.threecx.devices.model.SipDevice;
 import com.aregev.pbxconfig.threecx.devices.model.SipDevicesWrapper;
+import com.aregev.pbxconfig.yealink.ConfigSaver;
 import com.aregev.pbxconfig.yealink.YealinkConfigFetcher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.util.Strings;
@@ -24,6 +25,9 @@ public class Execution {
     YealinkConfigFetcher yealinkConfigFetcher;
 
     @Autowired
+    ConfigSaver configSaver;
+
+    @Autowired
     ObjectMapper mapper;
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -42,7 +46,7 @@ public class Execution {
             }
         });
 
-        System.out.println(configs);
+        configSaver.saveConfigs(configs);
     }
 
 }
