@@ -10,6 +10,7 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public abstract class BaseRequest {
     protected int port;
 
     @Autowired
+    @Qualifier("OkHttpClientFactory")
     protected OkHttpClient okHttpClient;
 
     @Autowired
