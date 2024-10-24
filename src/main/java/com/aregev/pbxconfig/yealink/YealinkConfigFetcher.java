@@ -29,13 +29,10 @@ public class YealinkConfigFetcher {
                 LOGGER.error("");
             }
             return response.body().string();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (NullPointerException e) {
-
+        } catch (IOException | NullPointerException e) {
+            LOGGER.error("{} Thrown: {} : {}", e.getCause().getClass().getName(), e.getCause().getMessage(), e.getMessage());
         }
         return null;
-
     }
 
     public Headers getAuthenticationCookie(SipDevice sipDevice) throws IOException {
@@ -64,7 +61,6 @@ public class YealinkConfigFetcher {
             builder.header("Cookie", jsessionId)
                 .header("Content-Length", "0")
                 .header("Host", url.host());
-
             builder.post(RequestBody.create("", MediaType.Companion.parse("*/*")));
         }
         return builder.build();

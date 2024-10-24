@@ -9,28 +9,22 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.aregev</groupId>
-	<artifactId>3cx</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>3cx</name>
-	<description>3CX</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
+	<artifactId>pbxconfig</artifactId>
+	<version>1.0.0</version>
+	<name>Configuration Fetcher</name>
+	<description>Fetching phone list from 3CX for backing up Yealink phones</description>
 	<developers>
-		<developer/>
+		<developer>
+			<name>Arik Regev</name>
+			<email>arik@aregev.com</email>
+		</developer>
 	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 	<properties>
 		<java.version>23</java.version>
 		<okhttp3.version>4.12.0</okhttp3.version>
 		<wiremock.version>3.9.1</wiremock.version>
 		<jackson.version>2.18.0</jackson.version>
+		<lombok.version>1.18.34</lombok.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -41,7 +35,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>${lombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wiremock</groupId>

@@ -27,7 +27,7 @@ public class SipDeviceFetcher extends BaseRequest {
         try {
             return super.execute(getRequest());
         } catch (JsonProcessingException e) {
-            LOGGER.error(""); //ToDo: Log
+            LOGGER.error("Error: Unable to process map to json, Exception thrown: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

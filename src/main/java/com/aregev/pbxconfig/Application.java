@@ -11,7 +11,6 @@ public class Application {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext fa = SpringApplication.run(Application.class, args);
-
 		fa.getBean(Execution.class).mainExecution();
 	}
 

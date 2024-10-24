@@ -33,7 +33,7 @@ public class AuthComponent extends BaseRequest {
         try {
             return super.execute(getRequest());
         } catch (JsonProcessingException e) {
-            LOGGER.error(""); //ToDo: Log
+            LOGGER.error("Error: Unable to process map to json, Exception thrown: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -44,7 +44,6 @@ public class AuthComponent extends BaseRequest {
             put("Username", user);
             put("Password", password);
         }};
-
         return new Request.Builder()
                 .post(RequestBody.create(mapper.writeValueAsString(map), MediaType.get("application/json")))
                 .url(getUrl())
@@ -57,6 +56,7 @@ public class AuthComponent extends BaseRequest {
                 .scheme((urlScheme) ? "https" : "http")
                 .host(url).port(port);
         Arrays.stream(PATH.split("/")).forEach(httpUrl::addPathSegment);
+        LOGGER.debug("Authentication URL: {}", httpUrl.build());
         return httpUrl.build();
     }
 

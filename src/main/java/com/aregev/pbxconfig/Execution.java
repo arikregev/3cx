@@ -34,18 +34,22 @@ public class Execution {
 
     public void mainExecution(){
         var configs = new HashMap<SipDevice, String>();
-        var sip = mapper.convertValue(sipDeviceFetcher.execute(), SipDevicesWrapper.class).getList();
-        var sipList = sip.stream()
+        var sipList = mapper.convertValue(sipDeviceFetcher.execute(), SipDevicesWrapper.class).getList().stream()
                 .filter(device -> !Strings.isBlank(device.getRegistrar().getMac()) &&
                         !Strings.isBlank(device.getRegistrar().getIpAddress())).toList();
         sipList.forEach(device -> {
             try {
-                configs.put(device, yealinkConfigFetcher.getConfiguration(device));
+                var config = yealinkConfigFetcher.getConfiguration(device);
+                if(config != null) {
+                    configs.put(device, config);
+                    LOGGER.debug("Configuration for device: {} was added to map.", device);
+                } else {
+                    LOGGER.error("Error: returned null config for {}", device);
+                }
             } catch (IOException e) {
-                LOGGER.error("Skipping: {}", device);
+                LOGGER.error("Skipping: {} because {} thrown with message: {}", device, e.getClass().getName(), e.getMessage());
             }
         });
-
         configSaver.saveConfigs(configs);
     }
 

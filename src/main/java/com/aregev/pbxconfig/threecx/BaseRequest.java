@@ -38,7 +38,7 @@ public abstract class BaseRequest {
     protected <T> T execute(Request request) {
         try (Response response = okHttpClient.newCall(request).execute()) {
             if (!response.isSuccessful())
-                LOGGER.error(""); //ToDo: Log
+                LOGGER.error("Error: call ended with response code: {} ", response.code());
             assert response.body() != null;
             return mapper.readValue(response.body().string(), new TypeReference<>() {});
         } catch (IOException e) {
