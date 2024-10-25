@@ -10,5 +10,7 @@ logging.level.com.aregev.pbxconfig=INFO</br></br>
 3cx.port=443</br>
 3cx.user.name=</br>
 3cx.user.pass=</br>
-</br></br>
+</br>
+yealink.override.certs=true
+</br>
 save.config.folder=

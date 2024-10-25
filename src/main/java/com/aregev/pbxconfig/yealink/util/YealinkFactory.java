@@ -16,6 +16,9 @@ import java.security.NoSuchAlgorithmException;
 @Configuration
 public class YealinkFactory {
 
+    @Value("${yealink.override.certs}")
+    private boolean overrideCerts;
+
     @Bean
     public OkHttpClient OkHttpClientFactoryNoVerification() throws NoSuchAlgorithmException, KeyManagementException {
         var trustAllCerts = new TrustManager[]{
@@ -36,9 +39,11 @@ public class YealinkFactory {
         };
         SSLContext sslContext = SSLContext.getInstance("SSL");
         sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-        return new OkHttpClient().newBuilder()
-                .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustAllCerts[0])
-                .hostnameVerifier(((hostname, session) -> true))
-                .build();
+        var builder = new OkHttpClient().newBuilder();
+        if(overrideCerts) {
+            builder.sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustAllCerts[0])
+                    .hostnameVerifier(((hostname, session) -> true));
+        }
+         return builder.build();
     }
 }
