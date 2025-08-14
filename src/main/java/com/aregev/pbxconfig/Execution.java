@@ -18,25 +18,26 @@ import java.util.HashMap;
 @Service
 public class Execution {
 
-    @Autowired
-    SipDeviceFetcher sipDeviceFetcher;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Execution.class);
+    private final SipDeviceFetcher sipDeviceFetcher;
+    private final YealinkConfigFetcher yealinkConfigFetcher;
+    private final ConfigSaver configSaver;
+    private final ObjectMapper mapper;
 
     @Autowired
-    YealinkConfigFetcher yealinkConfigFetcher;
-
-    @Autowired
-    ConfigSaver configSaver;
-
-    @Autowired
-    ObjectMapper mapper;
-
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    public Execution(SipDeviceFetcher sipDeviceFetcher, YealinkConfigFetcher yealinkConfigFetcher, ConfigSaver configSaver, ObjectMapper mapper) {
+        this.sipDeviceFetcher = sipDeviceFetcher;
+        this.yealinkConfigFetcher = yealinkConfigFetcher;
+        this.configSaver = configSaver;
+        this.mapper = mapper;
+    }
 
     public void mainExecution(){
         var configs = new HashMap<SipDevice, String>();
         var sipList = mapper.convertValue(sipDeviceFetcher.execute(), SipDevicesWrapper.class).getList().stream()
                 .filter(device -> !Strings.isBlank(device.getRegistrar().getMac()) &&
-                        !Strings.isBlank(device.getRegistrar().getIpAddress())).toList();
+                        !Strings.isBlank(device.getRegistrar().getIpAddress()) &&
+                        !device.getRegistrar().getIpAddress().contains("SBC")).toList();
         sipList.forEach(device -> {
             try {
                 var config = yealinkConfigFetcher.getConfiguration(device);
