@@ -1,13 +1,7 @@
 package com.aregev.pbxconfig.threecx.auth.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class Authentication {
 
     @JsonProperty("Status")
@@ -18,4 +12,28 @@ public class Authentication {
 
     @JsonProperty("TwoFactorAuth")
     private String twoFactorAuth;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
+
+    public String getTwoFactorAuth() {
+        return twoFactorAuth;
+    }
+
+    public void setTwoFactorAuth(String twoFactorAuth) {
+        this.twoFactorAuth = twoFactorAuth;
+    }
 }
